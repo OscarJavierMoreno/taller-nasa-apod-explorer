@@ -1,0 +1,137 @@
+:root {
+    --color-a: #0A0E17;
+    --color-b: #101623;
+    --color-c: #00FFFF;
+    --color-d: #FFFFFF;
+    --color-e: #A0AABF;
+    --color-f: #00A3A3;
+    --color-f: #162341;
+
+    --box-shadow: 0 0 10px 0 var(--color-c);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: var(--color-a);
+    color: var(--color-d);
+}
+
+main {
+    max-width: 1200px;
+    display: flex;
+    padding: 40px;
+    gap: 50px;
+    margin: auto;
+}
+
+/* -------------- APARTADO DESCRIPCION -------------- */
+nav {
+
+}
+
+/* -------------- DESCRIPCION -------------- */
+.description {
+    width: 30%;
+}
+
+.description-box {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+}
+
+.description-box-title {
+    background-color: var(--color-f);
+    padding: 20px;
+    border: 3px dashed var(--color-e);
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+}
+
+.description__title {
+    font-size: 3rem;
+}
+
+.description-box-description {
+    background-color: var(--color-f);
+    padding: 30px;
+    border: 3px dashed var(--color-e);
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+}
+
+.description__description {
+    font-size: 1.5rem;
+}
+
+
+/* -------------- DATA -------------- */
+.data {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.data__search-box {
+    display: flex;
+    gap: 30px;
+}
+
+.data__title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.data__date {
+    width: 50%;
+    padding: 8px 25px;
+    font-size: 1.5rem;
+}
+
+.data__search-button {
+    padding: 10px 20px;  
+    font-family: inherit; 
+    font-size: 1.1rem;
+    transition: transform 0.5s; 
+}
+
+.data__search-button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    background-color: var(--color-c);
+    color: var(--color-a);
+    outline: 3px dashed var(--color-a);
+}
+
+.data__button-favorites {
+    width: 40%;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+
+.data__img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;    
+}
+
+
+/* -------------- DEMAS CLASES -------------- */
+.data__styles {
+    border-radius: 20px;
+    font-weight: bold;
+    background-color: var(--color-f);
+    border: 3px dashed var(--color-c);
+    box-shadow: 0 0 10px 0 var(--color-c);
+    color: var(--color-d);
+
+}
