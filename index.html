@@ -9,8 +9,8 @@
 <body>
 
     <header>
-        <nav>
-            <h1>🌌 NASA - APOD Explorer</h1>
+        <nav class="nav">
+            <h1 class="nav__title">🌌 NASA - APOD Explorer</h1>
             <p>Foto del Día</p>
         </nav>
     </header>
@@ -43,14 +43,36 @@
                 <button class="data__search-button data__styles">🔎BUSCAR</button>
             </div>
 
-            <button class="data__button-favorites data__styles data__search-button">🔥AGREGAR A FAVORITOS</button>
+            <button class="data__button-favorites data__styles data__search-button">🔥FAVORITOS</button>
 
             <div class="data-box__img">
                 <img class="data__img" src="imagen.png" alt="">
             </div>
 
+            <!-- Apartado de favoritos -->
+            <div class="favorites">
+                <h3 class="favorites__title">FAVORITOS</h3>
+
+                <div class="favorites-main-box">
+
+                    <div class="favorites-box">
+                        <img class="favorites__img" src="imagen.png" alt="">
+                        <p class="favorites__description">Lorem ipsum dolor.</p>
+                        <button class="favorites__button-delete data__search-button data__styles">Eliminar</button>
+
+                    </div>
+
+                    
+                </div>
+            </div>
+
+
+
         </section>
+
     </main>
+
+    <script src="app.js"></script>
     
 </body>
 </html>
