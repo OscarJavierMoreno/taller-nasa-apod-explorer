@@ -9,6 +9,7 @@
 
     --box-shadow: 0 0 10px 0 var(--color-c);
     --border-a: 3px dashed var(--color-e);
+    --border-b: 3px dashed var(--color-c);
 }
 
 * {
@@ -102,7 +103,7 @@ main {
 }
 
 .data__date {
-    width: 50%;
+    width: 70%;
     padding: 8px 25px;
     font-size: 1.5rem;
 }
@@ -134,7 +135,7 @@ main {
     object-fit: cover;
     object-position: center;   
     border-radius: 15px; 
-    border: var(--border-a);
+    border: var(--border-b);
     box-shadow: var(--box-shadow);
 }
 
@@ -145,6 +146,8 @@ main {
     overflow-x: auto;
     background-color: var(--color-f); 
     border-radius: 15px;
+    box-shadow: var(--box-shadow);
+    border: var(--border-a);
 }
 
 .favorites__title {
@@ -154,6 +157,7 @@ main {
 
 .favorites-main-box {
     display: flex;
+    gap: 30px;
 }
 
 .favorites-box {
@@ -173,9 +177,10 @@ main {
 
 .favorites__description {
     text-align: center;
-    padding: 10px 15px;
+    padding: 8px 15px;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
 .favorites__button-delete {
