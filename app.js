@@ -1,9 +1,10 @@
-
-// ======= CONFIGURACIÓN =========
+// =============================================
+// 1. CONFIGURACIÓN
+// =============================================
 const API_KEY = "2TJcJSZKFexX6zGya89iT5aHaSr6MRiuLBLTU9Sr";
 const BASE_URL = "https://api.nasa.gov/planetary/apod";
 
-//Captando elementos
+// Captando elementos
 const dateInput = document.getElementById("dateInput");
 const titleData = document.getElementById("titleData");
 const descriptionData = document.getElementById("descriptionData");
@@ -14,11 +15,9 @@ const buttonFavorites = document.getElementById("buttonFavorites");
 const favoritescontainer = document.getElementById("favoritescontainer");
 const favoritesList = document.getElementById("favoritesList");
 
-//Declarando varibles elementos
-let currentData = null;
-
-
-// ======== FUNCIÓN QUE TRAE LOS DATOS========
+// =============================================
+// 2. FUNCIÓN QUE TRAE LOS DATOS (ya estaba buena)
+// =============================================
 async function getData(date = "")
 {
     try
@@ -27,103 +26,67 @@ async function getData(date = "")
             ? `${BASE_URL}?api_key=${API_KEY}&date=${date}` 
             : `${BASE_URL}?api_key=${API_KEY}`;
 
+        console.log("🌍 Consultando NASA →", url);
+
         const response = await fetch(url);
 
-        if (!response.ok) return null;
+        if (!response.ok)
+        {
+            console.error(`❌ NASA error ${response.status}`);
+            return null;
+        }
 
         const data = await response.json();
+        console.log("✅ Datos recibidos:", data.title);
         return data;
+
     }
     
     catch (error)
     {
+        console.error("❌ Error de conexión:", error);
         return null;
     }
 }
 
-
-// ======= FUNCIÓN PARA MOSTRAR LOS DATOS =======
+// =============================================
+// 3. FUNCIÓN PARA MOSTRAR TÍTULO Y DESCRIPCIÓN
+// =============================================
 function updateData(dataTitle, dataExplanation)
 {
     titleData.textContent = dataTitle;
-    descriptionData.textContent = dataExplanation;
+    descriptionData.textContent = dataExplanation || "Sin explicación disponible";
 }
 
-
-// ======== FUNCIÓN PARA MOSTRAR CONTENEDORES =============
-function showContainers(display)
+// =============================================
+// 4. FUNCIÓN PARA MOSTRAR LOS CONTENEDORES (CORREGIDA)
+// =============================================
+function showContainers()
 {
-    descriptionDataContainer.style.display = display;
-    buttonFavorites.style.display = display;
-    imgData.style.display = display;
-}
-
-
-// ======== FUNCIÓN PARA MOSTRAR CONTENEDORES =============
-function clearData()
-{
-
-    descriptionData.textContent = "";
-    imgData.src = "";
-    showContainers("none");
-}
-
-
-// ======== FUNCIÓN PARA AGREGAR A FAVORITOS =============
-function addFavorite(data)
-{
-    //Creando los elementos
-    const li = document.createElement("li");
-    const img = document.createElement("img");
-    const p = document.createElement("p");
-    const button = document.createElement("button");
-
-    //Creando clases
-    li.classList.add("favorites-box");
-
-    img.classList.add("favorites__img");
-    p.classList.add("favorites__description");
-    button.classList.add("favorites__button-delete", "data__search-button", "data__styles");
-
-    //Guardando el contenido
-    img.src = data.url;
-    img.alt = data.title;
-    p.textContent = data.title;
-    button.textContent = "Eliminar";
-
-    // Evento eliminar
-    button.addEventListener("click", () =>
-    {
-        li.remove();
-    });
-
-    //Armando la estructura
-    li.appendChild(img);
-    li.appendChild(p);
-    li.appendChild(button);
-
-    //Insertando en el DOM
-    favoritesList.appendChild(li);
-
-    //Mostrar contenedor porque está oculto
+    descriptionDataContainer.style.display = "block";
+    buttonFavorites.style.display = "block";
+    imgData.style.display = "block";
     favoritescontainer.style.display = "block";
 }
 
-// ======== BOTÓN DE BÚSQUEDA (Evento) ========
+// =============================================
+// 5. BOTÓN DE BÚSQUEDA
+// =============================================
 buttonSearch.addEventListener('click', async () =>
 {
-    buttonSearch.disabled = true;
-    clearData();
-
     const selectedDate = dateInput.value;
 
-    //Validación simple: no permitir fechas futuras
-    const today = new Date().toISOString().split('T')[0];
+    if (!selectedDate)
+    {
+        alert("Por favor selecciona una fecha");
+        return;
+    }
 
+    // Validación de fecha futura
+    const today = new Date().toISOString().split('T')[0];
     if (selectedDate > today)
     {
         alert("La NASA no tiene imágenes de fechas futuras");
-        buttonSearch.disabled = false;
         return;
     }
 
@@ -131,27 +94,33 @@ buttonSearch.addEventListener('click', async () =>
 
     if (data !== null)
     {
-        currentData = data;
-        imgData.src = data.url;
-        img.alt = data.title;
+        imgData.src = data.url;                    // ← imagen del día
         updateData(data.title, data.explanation);
+        console.log("🎉 APOD cargada correctamente");
     }
     
     else
     {
-        updateData("Error al cargar", "La NASA no respondió o llegó al límite de peticiones. Intenta otra fecha.");
+        updateData("Error al cargar", "La NASA no respondió o llegó al límite de peticiones. Prueba otra fecha.");
         imgData.src = "";
     }
 
-    showContainers("block");
-    buttonSearch.disabled = false;
+    showContainers();   // ← ahora sí muestra todo
 });
 
-
-// ======== BOTÓN DE FAVORITOS (Evento) ========
-buttonFavorites.addEventListener('click', () =>
+// =============================================
+// 6. CARGAR LA FOTO DEL DÍA AUTOMÁTICAMENTE (lo que faltaba)
+// =============================================
+document.addEventListener('DOMContentLoaded', async () =>
 {
-    if (!currentData) return;
+    console.log("📄 Página cargada → mostrando APOD del día");
+    const data = await getData();   // sin fecha = hoy
 
-    addFavorite(currentData);
+    if (data !== null) {
+        imgData.src = data.url;
+        updateData(data.title, data.explanation);
+        showContainers();
+    } else {
+        updateData("Error", "No se pudo cargar la APOD del día");
+    }
 });
