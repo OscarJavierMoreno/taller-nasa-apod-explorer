@@ -1,35 +1,21 @@
-//Captando la llave y el enlace
+
+// ======= CONFIGURACIÓN =========
 const API_KEY = "2TJcJSZKFexX6zGya89iT5aHaSr6MRiuLBLTU9Sr";
 const BASE_URL = "https://api.nasa.gov/planetary/apod";
 
-
-//Captando la fecha que el usuario digite
+//Captando elementos
 const dateInput = document.getElementById("dateInput");
-
-//Captando el contenedor del la descripcion
-const descriptionDataContainer = document.getElementById("descriptionDataContainer");
-
-//Captando el título
 const titleData = document.getElementById("titleData");
-
-//Captando la descripción
 const descriptionData = document.getElementById("descriptionData");
-
-//Captando el boton de busqueda
-const buttonSearch = document.getElementById("buttonSearch");
-
-//Captando el boton de favoritos
-const buttonFavorites = document.getElementById("buttonFavorites");
-
-//Captando el contendor de la imagen
+const descriptionDataContainer = document.getElementById("descriptionDataContainer");
 const imgData = document.getElementById("imgData");
-
-//Captando el contenedor de los favoritos
+const buttonSearch = document.getElementById("buttonSearch");
+const buttonFavorites = document.getElementById("buttonFavorites");
 const favoritescontainer = document.getElementById("favoritescontainer");
+const favoritesData = document.getElementById("favoritesData");
 
 
-
-// -------- OBTENIDO LA INFORMACION DE LA API --------
+// ======== FUNCIÓN QUE TRAE LOS DATOS========
 async function getData(date = "")
 {
     try
@@ -42,7 +28,7 @@ async function getData(date = "")
 
         if (!response.ok) return null;
 
-        const data = await response.json();        
+        const data = await response.json();
         return data;
     }
     
@@ -53,38 +39,71 @@ async function getData(date = "")
 }
 
 
-// -------- AGREGANDO EL EVENTO AL BOTON DE BUSCAR --------
-buttonSearch.addEventListener('click', async () =>
-{
-    const date = dateInput.value;
-    const data = await getData(date);
-
-    if (data !== null)
-    {
-        imgData.src = data.url;
-        updateData(data.title, data.explanation);     
-    }
-
-    else
-    {
-        updateData("Error", "No se pudo cargar la información");
-    }
-
-    showContainers("block");
-});
-
-
-// -------- FUNCIÓN PARA MOSTRAR LOS DATOS --------
+// ======= FUNCIÓN PARA MOSTRAR LOS DATOS =======
 function updateData(dataTitle, dataExplanation)
 {
     titleData.textContent = dataTitle;
     descriptionData.textContent = dataExplanation;
 }
 
-// -------- FUNCIÓN PARA MOSTRAR LOS CONTENEDORES --------
+
+// ======== FUNCIÓN PARA MOSTRAR CONTENEDORES =============
 function showContainers(display)
 {
     descriptionDataContainer.style.display = display;
     buttonFavorites.style.display = display;
-    imgData.style.display = display; 
+    imgData.style.display = display;
 }
+
+
+// ======== FUNCIÓN PARA MOSTRAR CONTENEDORES =============
+function clearData()
+{
+    titleData.textContent = "";
+    descriptionData.textContent = "";
+    imgData.src = "";
+
+    // Opcional: ocultar mientras carga
+    showContainers("none");
+}
+
+
+// ======== BOTÓN DE BÚSQUEDA ========
+buttonSearch.addEventListener('click', async () =>
+{
+    buttonSearch.disabled = true;
+    clearData();
+
+    const selectedDate = dateInput.value;
+
+    //Validación simple: no permitir fechas futuras
+    const today = new Date().toISOString().split('T')[0];
+
+    if (selectedDate > today)
+    {
+        alert("La NASA no tiene imágenes de fechas futuras");
+        buttonSearch.disabled = false;
+        return;
+    }
+
+    const data = await getData(selectedDate);
+
+    if (data !== null)
+    {
+        imgData.src = data.url;
+        updateData(data.title, data.explanation);
+    }
+    
+    else
+    {
+        updateData("Error al cargar", "La NASA no respondió o llegó al límite de peticiones. Intenta otra fecha.");
+        imgData.src = "";
+    }
+
+    showContainers("block");
+
+    buttonSearch.disabled = false;
+});
+
+
+// ======== BOTÓN DE FAVORITOS ========
