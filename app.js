@@ -12,7 +12,10 @@ const imgData = document.getElementById("imgData");
 const buttonSearch = document.getElementById("buttonSearch");
 const buttonFavorites = document.getElementById("buttonFavorites");
 const favoritescontainer = document.getElementById("favoritescontainer");
-const favoritesData = document.getElementById("favoritesData");
+const favoritesList = document.getElementById("favoritesList");
+
+//Declarando varibles elementos
+let currentData = null;
 
 
 // ======== FUNCIÓN QUE TRAE LOS DATOS========
@@ -59,16 +62,54 @@ function showContainers(display)
 // ======== FUNCIÓN PARA MOSTRAR CONTENEDORES =============
 function clearData()
 {
-    titleData.textContent = "";
+
     descriptionData.textContent = "";
     imgData.src = "";
-
-    // Opcional: ocultar mientras carga
     showContainers("none");
 }
 
 
-// ======== BOTÓN DE BÚSQUEDA ========
+// ======== FUNCIÓN PARA AGREGAR A FAVORITOS =============
+function addFavorite(data)
+{
+    //Creando los elementos
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+    const p = document.createElement("p");
+    const button = document.createElement("button");
+
+    //Creando clases
+    li.classList.add("favorites-box");
+
+    img.classList.add("favorites__img");
+    p.classList.add("favorites__description");
+    button.classList.add("favorites__button-delete", "data__search-button", "data__styles");
+
+    //Guardando el contenido
+    img.src = data.url;
+    img.alt = data.title;
+    p.textContent = data.title;
+    button.textContent = "Eliminar";
+
+    // Evento eliminar
+    button.addEventListener("click", () =>
+    {
+        li.remove();
+    });
+
+    //Armando la estructura
+    li.appendChild(img);
+    li.appendChild(p);
+    li.appendChild(button);
+
+    //Insertando en el DOM
+    favoritesList.appendChild(li);
+
+    //Mostrar contenedor porque está oculto
+    favoritescontainer.style.display = "block";
+}
+
+// ======== BOTÓN DE BÚSQUEDA (Evento) ========
 buttonSearch.addEventListener('click', async () =>
 {
     buttonSearch.disabled = true;
@@ -90,7 +131,9 @@ buttonSearch.addEventListener('click', async () =>
 
     if (data !== null)
     {
+        currentData = data;
         imgData.src = data.url;
+        img.alt = data.title;
         updateData(data.title, data.explanation);
     }
     
@@ -101,9 +144,14 @@ buttonSearch.addEventListener('click', async () =>
     }
 
     showContainers("block");
-
     buttonSearch.disabled = false;
 });
 
 
-// ======== BOTÓN DE FAVORITOS ========
+// ======== BOTÓN DE FAVORITOS (Evento) ========
+buttonFavorites.addEventListener('click', () =>
+{
+    if (!currentData) return;
+
+    addFavorite(currentData);
+});
