@@ -24,13 +24,11 @@
                 <div class="description-box">
             
                     <div class="description-box-title">
-                        <h2 class="description__title">NASA APOD EXPLORER</h2>
+                        <h2 class="description__title" id="titleData">NASA APOD EXPLORER</h2>
                     </div>
             
-                    <div class="description-box-description">
-                        <p class="description__description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta
-                            eligendi aliquid aliquam consequatur commodi blanditiis voluptatum earum sunt reiciendis similique
-                            recusandae facere vel alias, praesentium repellat dolorem molestias magnam. Repudiandae.</p>
+                    <div class="description-box-description" id="descriptionDataContainer">
+                        <p class="description__description" id="descriptionData"></p>
                     </div>
             
                 </div>
@@ -42,44 +40,30 @@
                 <p class="data__title">SELECCION DE DATOS</p>
             
                 <div class="data__search-box">
-                    <input class="data__date data__styles" type="date">
-                    <button class="data__search-button data__styles">🔎</button>
+                    <input class="data__date data__styles" id="dateInput" type="date">
+                    <button class="data__search-button data__styles" id="buttonSearch">🔎</button>
                 </div>
             
-                <button class="data__button-favorites data__styles data__search-button">🔥FAVORITOS</button>
+                <button class="data__button-favorites data__styles data__search-button" id="buttonFavorites">🔥FAVORITOS</button>
             
-                <div class="data-box__img">
-                    <img class="data__img" src="imagen.png" alt="">
-                </div>
+                <img class="data__img" id="imgData" src="" alt="">
             
                 <!-- Apartado de favoritos -->
-                <div class="favorites">
+                <div class="favorites" id="favoritescontainer">
                     <h3 class="favorites__title">FAVORITOS ♥️</h3>
             
-                    <div class="favorites-main-box">
+                    <ul class="favorites-main-box">
             
-                        <div class="favorites-box">
+                        <li class="favorites-box">
                             <img class="favorites__img" src="imagen.png" alt="">
                             <p class="favorites__description">Lorem ipsum dolor.</p>
                             <button class="favorites__button-delete data__search-button data__styles">Eliminar</button>
+                        </li>           
             
-                        </div>
-            
-                        <div class="favorites-box">
-                            <img class="favorites__img" src="imagen.png" alt="">
-                            <p class="favorites__description">Lorem ipsum dolor.</p>
-                            <button class="favorites__button-delete data__search-button data__styles">Eliminar</button>
-            
-                        </div>
-            
-            
-                    </div>
+                    </ul>
                 </div>
             </section>
-
         </div>
-        
-
     </main>
 
     <footer class="footer-nasa">
